@@ -5,6 +5,7 @@ import com.niki.common.count
 import com.niki.common.logD
 import com.niki.common.logE
 import com.niki.hooker.model.ApplicationHooker
+import com.zephyr.log.logV
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineScope
@@ -20,8 +21,8 @@ import kotlinx.coroutines.launch
  */
 class MainHook : IXposedHookLoadPackage {
     companion object {
-        const val TARGET_PACKAGE_NAME = "com.x.x"
-        lateinit var TargetApplication: Application
+        const val TARGET_PACKAGE_NAME = "com.x.x" // TODO
+        lateinit var targetApplication: Application
     }
 
 //    private val repo by lazy { XSettingsRepository.getInstance() } // 应该根据需求重实现 repository
@@ -32,19 +33,20 @@ class MainHook : IXposedHookLoadPackage {
      * hook 的触发回调
      */
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (lpparam.packageName != TARGET_PACKAGE_NAME) {
+            logV("略过: ${lpparam.packageName}")
+            return
+        }
+
+        logD("正在 Hook: ${lpparam.packageName}")
+
         hookScope.launch(Dispatchers.IO) {
-            if (lpparam.packageName != TARGET_PACKAGE_NAME) {
-                return@launch
-            }
-
-            logD("正在 Hook: ${lpparam.packageName}")
-
             try {
                 val application = count("阻塞获取 context") {
-                    ApplicationHooker().hookBlocking(lpparam)
+                    ApplicationHooker(TARGET_PACKAGE_NAME).hookBlocking(lpparam)
                 }
                 application?.let {
-                    TargetApplication = it
+                    targetApplication = it
 
 //                    XSettingsRepository.getInstance(it)
 

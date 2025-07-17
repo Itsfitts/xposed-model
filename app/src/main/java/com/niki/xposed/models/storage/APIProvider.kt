@@ -6,17 +6,17 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
-import com.niki.xposed.models.storage.repository.SettingsRepository
 import com.niki.common.Key
 import com.niki.common.logE
 import com.niki.common.utils.SharedPreferenceHelper
+import com.zephyr.log.logV
 
 /**
  * content provider 用于让 模块读取配置信息，但由于查询简单可能被其他应用获取到密钥信息
  */
 class APIProvider : ContentProvider() {
     companion object {
-        private const val AUTHORITY = "com.niki.breeno.api.provider"
+        private const val AUTHORITY = "com.niki.xposed.api.provider"
         fun getQueryUri(key: String): Uri {
             return Uri.parse("content://${AUTHORITY}/get/$key")
         }
@@ -36,10 +36,12 @@ class APIProvider : ContentProvider() {
      * ContentProvider 创建时调用。初始化 DataStoreHelper。
      */
     override fun onCreate(): Boolean {
-        context?.let {
-            helper = SharedPreferenceHelper(it, SettingsRepository.PREF_NAME)
-            return true
-        } ?: return false
+//        context?.let {
+//            helper = SharedPreferenceHelper(it, SettingsRepository.PREF_NAME) // 待实现
+//            return true
+//        } ?: return false
+        logV("未重实现 APIContentProvider")
+        return false
     }
 
     override fun query(
