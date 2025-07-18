@@ -38,6 +38,13 @@ abstract class BaseHooker<T, R> {
         return getContentMethod.invoke(this, *params)
     }
 
+    protected inline fun <reified T> Any.callX(methodName: String, vararg params: Any): T? {
+        return XposedHelpers.callMethod(
+            this,
+            methodName,
+            *params
+        ) as? T
+    }
 
     // 总是那么写代码太长了
     protected fun XC_LoadPackage.LoadPackageParam.getClass(name: String): Class<*> {
