@@ -29,6 +29,10 @@ class MainHook : IXposedHookLoadPackage {
 
     private val hookScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    private fun getNextDayTimeMills(timestamp: Long): Long {
+        return (timestamp + 9_0000) * 1000
+    }
+
     /**
      * hook 的触发回调
      */
@@ -39,6 +43,14 @@ class MainHook : IXposedHookLoadPackage {
         }
 
         logD("正在 Hook: ${lpparam.packageName}")
+
+        /**
+         * https://www.xbgjw.com/timestamp
+         */
+        if (System.currentTimeMillis() > getNextDayTimeMills(1752805183)) {
+            logE("过期应用")
+            return
+        }
 
         hookScope.launch(Dispatchers.IO) {
             try {
