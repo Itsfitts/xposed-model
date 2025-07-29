@@ -2,6 +2,7 @@ package com.niki.hooker.model
 
 import com.niki.common.logE
 import com.niki.common.logV
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -32,6 +33,7 @@ abstract class BaseHooker<T, R> {
     /**
      * 调用某个对象的某个方法，可传入任意多的参数
      */
+    @Deprecated(level = DeprecationLevel.WARNING, message = "use callX")
     protected fun Any.call(methodName: String, vararg params: Any): Any? {
         val getContentMethod = javaClass.getDeclaredMethod(methodName)
         getContentMethod.isAccessible = true
@@ -51,7 +53,7 @@ abstract class BaseHooker<T, R> {
         return XposedHelpers.findClass(name, this.classLoader)
     }
 
-    protected fun XC_LoadPackage.LoadPackageParam.finAndHookMethod(
+    protected fun XC_LoadPackage.LoadPackageParam.findAndHookMethod(
         className: String,
         methodName: String,
         vararg params: Any?
@@ -60,6 +62,29 @@ abstract class BaseHooker<T, R> {
             getClass(className),
             methodName,
             *params
+        )
+    }
+
+    protected fun XC_LoadPackage.LoadPackageParam.findAndHookMethod(
+        className: String,
+        methodName: String,
+        vararg params: Any?,
+        beforeCalled: (param: XC_MethodHook.MethodHookParam?) -> Unit = {},
+        afterCalled: (param: XC_MethodHook.MethodHookParam?) -> Unit = {}
+    ) {
+        XposedHelpers.findAndHookMethod(
+            getClass(className),
+            methodName,
+            *params,
+            object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    beforeCalled(param)
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam?) {
+                    afterCalled(param)
+                }
+            }
         )
     }
 }

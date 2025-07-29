@@ -20,7 +20,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class ViewTreeHooker(val delay: Long) : BaseHooker<Nothing, Unit>() {
     override val TAG: String = ""
     override fun XC_LoadPackage.LoadPackageParam.hookInternal(callback: (Nothing) -> Unit) {
-        finAndHookMethod(
+        findAndHookMethod(
             "android.app.Activity",
             "onCreate",
             Bundle::class.java,
