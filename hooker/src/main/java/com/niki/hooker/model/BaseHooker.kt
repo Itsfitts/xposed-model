@@ -11,7 +11,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 abstract class BaseHooker<T, R> {
 
-    protected abstract val TAG: String
+    abstract val TAG: String
 
     fun hook(p: XC_LoadPackage.LoadPackageParam, callback: (T) -> R) {
         tryInternal { p.hookInternal(callback) }
@@ -28,19 +28,9 @@ abstract class BaseHooker<T, R> {
         }
     }
 
-    protected abstract fun XC_LoadPackage.LoadPackageParam.hookInternal(callback: (T) -> R)
+    protected open fun XC_LoadPackage.LoadPackageParam.hookInternal(callback: (T) -> R) {}
 
-    /**
-     * 调用某个对象的某个方法，可传入任意多的参数
-     */
-    @Deprecated(level = DeprecationLevel.WARNING, message = "use callX")
-    protected fun Any.call(methodName: String, vararg params: Any): Any? {
-        val getContentMethod = javaClass.getDeclaredMethod(methodName)
-        getContentMethod.isAccessible = true
-        return getContentMethod.invoke(this, *params)
-    }
-
-    protected inline fun <reified T> Any.callX(methodName: String, vararg params: Any): T? {
+    protected inline fun <reified T> Any.call(methodName: String, vararg params: Any): T? {
         return XposedHelpers.callMethod(
             this,
             methodName,
@@ -56,18 +46,6 @@ abstract class BaseHooker<T, R> {
     protected fun XC_LoadPackage.LoadPackageParam.findAndHookMethod(
         className: String,
         methodName: String,
-        vararg params: Any?
-    ) {
-        XposedHelpers.findAndHookMethod(
-            getClass(className),
-            methodName,
-            *params
-        )
-    }
-
-    protected fun XC_LoadPackage.LoadPackageParam.findAndHookMethod(
-        className: String,
-        methodName: String,
         vararg params: Any?,
         beforeCalled: (param: XC_MethodHook.MethodHookParam?) -> Unit = {},
         afterCalled: (param: XC_MethodHook.MethodHookParam?) -> Unit = {}
@@ -78,11 +56,19 @@ abstract class BaseHooker<T, R> {
             *params,
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam?) {
-                    beforeCalled(param)
+                    try {
+                        beforeCalled(param)
+                    } catch (t: Throwable) {
+                        logE("回调 before hooked 出错", t)
+                    }
                 }
 
                 override fun afterHookedMethod(param: MethodHookParam?) {
-                    afterCalled(param)
+                    try {
+                        afterCalled(param)
+                    } catch (t: Throwable) {
+                        logE("回调 after hooked 出错", t)
+                    }
                 }
             }
         )
