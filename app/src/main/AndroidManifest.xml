@@ -10,7 +10,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@null"
-        android:label="@string/app_name"
+        android:label="@string/app_name//"
         android:roundIcon="@null"
         android:supportsRtl="true"
         android:theme="@style/Theme.XposedModel"
@@ -28,11 +28,11 @@
 
         <provider
             android:name=".models.storage.ConfigProvider"
-            android:authorities="com.niki914.qmcleaner.config.provider"
+            android:authorities="com.niki914.model.config.provider"
             android:exported="true" />
         <provider
             android:name=".models.messaging.ErrorProvider"
-            android:authorities="com.niki914.qmcleaner.error.provider"
+            android:authorities="com.niki914.model.error.provider"
             android:exported="true" />
 
         <meta-data
@@ -46,7 +46,7 @@
             android:value="82" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/xposed_scope" />
+            android:resource="@array/xposed_scope//" />
     </application>
 
 </manifest>

@@ -1,7 +1,7 @@
-package com.niki914.qmcleaner.viewmodels.base
+package com.niki914.model.viewmodels.base
 
 import com.niki914.common.Key
-import com.niki914.qmcleaner.models.storage.repository.SettingsRepository
+import com.niki914.model.models.storage.repository.SettingsRepository
 
 /**
  * 加一个 repository

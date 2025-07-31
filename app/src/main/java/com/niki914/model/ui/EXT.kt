@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.ui
+package com.niki914.model.ui
 
 
 import android.content.Context

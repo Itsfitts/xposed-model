@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner
+package com.niki914.model
 
 import android.content.Context
 import android.content.Intent
@@ -24,7 +24,7 @@ fun ComponentActivity.withPermission(
 
 fun Context.issueReport(title: String = "模块发生错误", body: String = "") {
     val githubIssueUrl = TODO()
-    "https://github.com/Xposed-Modules-Repo/com.niki914.qqmail.cleaneer/issues/new?title=$title&body=$body"
+    "https://github.com/Xposed-Modules-Repo/com.niki914.model/issues/new?title=$title&body=$body"
 //    val intent = Intent(Intent.ACTION_VIEW, githubIssueUrl.toUri())
 //    startActivity(intent)
 }

@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.models.messaging
+package com.niki914.model.models.messaging
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -12,7 +12,7 @@ import android.os.Build
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.niki914.qmcleaner.isPermissionGranted
+import com.niki914.model.isPermissionGranted
 
 // --- 通知渠道常量 ---
 private const val CHANNEL_ID = "niki914_report_channel"

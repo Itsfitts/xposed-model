@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.niki914.qmcleaner"
+    namespace = "com.niki914.model"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.niki914.qqmail.cleaner"
+        applicationId = "com.niki914.model.demo"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

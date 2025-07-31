@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner
+package com.niki914.model
 
 import android.app.Application
 import com.google.android.material.color.DynamicColors

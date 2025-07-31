@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.models.storage.repository
+package com.niki914.model.models.storage.repository
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -1,5 +1,5 @@
 // ui.theme/Color.kt
-package com.niki914.qmcleaner.ui.theme
+package com.niki914.model.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,12 +1,12 @@
-package com.niki914.qmcleaner.models.storage.repository
+package com.niki914.model.models.storage.repository
 
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import com.niki914.common.logD
 import com.niki914.common.repository.interfaces.ISettingsRepository
-import com.niki914.qmcleaner.AppApplication
-import com.niki914.qmcleaner.models.storage.repository.base.SettingRepositoryForModule
+import com.niki914.model.AppApplication
+import com.niki914.model.models.storage.repository.base.SettingRepositoryForModule
 
 /**
  * 模块专用

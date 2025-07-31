@@ -1,10 +1,10 @@
-package com.niki914.qmcleaner.models.storage.repository.base
+package com.niki914.model.models.storage.repository.base
 
 import android.content.Context
 import android.database.Cursor
 import com.niki914.common.logD
 import com.niki914.common.logE
-import com.niki914.qmcleaner.models.storage.getCursor
+import com.niki914.model.models.storage.getCursor
 
 open class ContentProviderRepository(private val context: Context) {
     protected fun getString(key: String): String? {

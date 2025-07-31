@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner
+package com.niki914.model
 
 import android.app.Application
 import android.content.Context
@@ -7,7 +7,8 @@ import com.niki914.common.logD
 import com.niki914.common.logE
 import com.niki914.common.logRelease
 import com.niki914.hooker.model.ApplicationHooker
-import com.niki914.qmcleaner.models.messaging.sendNotificationWithErrorProvider
+import com.niki914.model.models.messaging.sendNotificationWithErrorProvider
+import com.niki914.model.models.storage.repository.XSettingsRepository
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -29,7 +30,7 @@ class MainHook @Keep() constructor() : IXposedHookLoadPackage {
             val isDebug = BuildConfig.DEBUG
         }
 
-        const val PACKAGE_NAME = "com.tencent.androidqqmail"
+        const val PACKAGE_NAME = "model"
 
         lateinit var BreenoApplication: Application
 
@@ -55,6 +56,7 @@ class MainHook @Keep() constructor() : IXposedHookLoadPackage {
         hookScope.launch(exceptionHandler) {
             logD("正在 Hook: ${lpparam.packageName}")
 
+            TODO("PACKAGE_NAME")
             if (lpparam.packageName != PACKAGE_NAME) {
                 logD("跳过: ${lpparam.packageName}")
                 return@launch

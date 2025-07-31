@@ -1,8 +1,8 @@
-package com.niki914.qmcleaner.viewmodels
+package com.niki914.model.viewmodels
 
 import com.niki914.common.Key
-import com.niki914.qmcleaner.models.storage.repository.SettingsRepository
-import com.niki914.qmcleaner.viewmodels.base.BaseMVIViewModel
+import com.niki914.model.models.storage.repository.SettingsRepository
+import com.niki914.model.viewmodels.base.BaseMVIViewModel
 import com.zephyr.log.logI
 import com.zephyr.provider.TAG
 

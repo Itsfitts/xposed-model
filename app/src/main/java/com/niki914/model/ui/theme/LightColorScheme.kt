@@ -1,5 +1,5 @@
 // ui.theme/Theme.kt
-package com.niki914.qmcleaner.ui.theme
+package com.niki914.model.ui.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

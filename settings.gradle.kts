@@ -30,7 +30,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "qqmail-cleaner"
+rootProject.name = ''
 include(":app")
 include(":hooker")
 include(":common")

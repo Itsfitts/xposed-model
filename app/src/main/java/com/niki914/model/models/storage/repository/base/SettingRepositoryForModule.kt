@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.models.storage.repository.base
+package com.niki914.model.models.storage.repository.base
 
 import android.content.Context
 import com.niki914.common.Key

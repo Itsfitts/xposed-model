@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.models.messaging
+package com.niki914.model.models.messaging
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,11 +7,11 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.niki914.common.logE
 import com.niki914.common.utils.EmptyContentProvider
-import com.niki914.qmcleaner.MainActivity
-import com.niki914.qmcleaner.R
-import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_ERROR_MESSAGE
-import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_SHOULD_START_ACTIVITY
-import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_STACK_TRACE
+import com.niki914.model.MainActivity
+import com.niki914.model.R
+import com.niki914.model.models.messaging.ErrorProvider.Companion.COLUMN_ERROR_MESSAGE
+import com.niki914.model.models.messaging.ErrorProvider.Companion.COLUMN_SHOULD_START_ACTIVITY
+import com.niki914.model.models.messaging.ErrorProvider.Companion.COLUMN_STACK_TRACE
 
 fun Context.sendNotificationWithErrorProvider(
     errorMessage: String?,
@@ -31,7 +31,7 @@ fun Context.sendNotificationWithErrorProvider(
 class ErrorProvider : EmptyContentProvider() {
 
     companion object {
-        private const val AUTHORITY = "com.niki914.qmcleaner.error.provider"
+        private const val AUTHORITY = "com.niki914.model.error.provider"
 
         // 接收错误信息的 URI
         fun getErrorUri(): Uri = "content://$AUTHORITY/error".toUri()
@@ -54,6 +54,7 @@ class ErrorProvider : EmptyContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        TODO("URI")
         return when (uriMatcher.match(uri)) {
             CODE_POST_ERROR -> {
                 val errorMessage = values?.getAsString(COLUMN_ERROR_MESSAGE) ?: "未知错误"

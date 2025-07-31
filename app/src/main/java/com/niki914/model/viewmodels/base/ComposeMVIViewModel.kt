@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner.viewmodels.base
+package com.niki914.model.viewmodels.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

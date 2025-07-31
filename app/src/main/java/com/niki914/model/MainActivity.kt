@@ -1,4 +1,4 @@
-package com.niki914.qmcleaner
+package com.niki914.model
 
 import android.Manifest
 import android.os.Build
@@ -12,8 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.niki914.qmcleaner.ui.theme.XposedTheme
-import com.niki914.qmcleaner.viewmodels.MainViewModel
+import com.niki914.model.ui.theme.XposedTheme
+import com.niki914.model.viewmodels.MainViewModel
 import com.zephyr.log.setOnCaughtListener
 
 class MainActivity : ComponentActivity() {
