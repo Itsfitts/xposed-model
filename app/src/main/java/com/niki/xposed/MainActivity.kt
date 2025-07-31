@@ -1,14 +1,17 @@
 package com.niki.xposed
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MaterialExpressiveTheme
-import com.niki.common.toast
-import com.zephyr.log.LogConfig
-import com.zephyr.log.LogLevel
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.niki.xposed.ui.theme.XposedTheme
 import com.zephyr.log.setOnCaughtListener
 
 class MainActivity : ComponentActivity() {
@@ -22,20 +25,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        setContent {
-            MaterialExpressiveTheme {
-
-            }
-        }
-
-        LogConfig.edit {
-            writeToFile = false
-            logLevel = LogLevel.DO_NOT_LOG
-        }
-
-        // 全局捕获异常
         setOnCaughtListener { thread, throwable ->
-            toast("异常捕获: ${throwable.message}")
+//            throwable?.stackTraceToString()?.report()
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermission(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        setContent {
+            XposedTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {}
+            }
         }
     }
 }

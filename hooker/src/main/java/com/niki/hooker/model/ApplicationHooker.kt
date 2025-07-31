@@ -2,6 +2,7 @@ package com.niki.hooker.model
 
 import android.app.Application
 import com.niki.common.logV
+import com.niki.hooker.BaseHooker
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -11,7 +12,7 @@ import kotlin.coroutines.resume
 /**
  * hook 一个 application 实例
  */
-class ApplicationHooker(private val applicationClazzName: String) :
+class ApplicationHooker(private val applicationClazzName: String = "android.app.Application") :
     BaseHooker<Application, Unit>() {
     override val TAG: String = "AppApplication#onCreate"
 
@@ -51,25 +52,5 @@ class ApplicationHooker(private val applicationClazzName: String) :
                 }
             }
         }
-    }
-
-    override fun XC_LoadPackage.LoadPackageParam.hookInternal(callback: (Application) -> Unit) {
-        throw IllegalAccessError("用阻塞版本!")
-//
-//        var called = false
-//        finAndHookMethod(
-//            HookingClasses.APP_APPLICATION,
-//            "onCreate",
-//            object : XC_MethodHook() {
-//                override fun beforeHookedMethod(param: MethodHookParam) {
-//                    if (called) return
-//                    (param.thisObject as? Application)?.let { app ->
-//                        callback(app)
-//                        called = true
-//                        logV("application.onCreate() 获取实例")
-//                    } ?: logV("application.onCreate() 为空")
-//                }
-//            }
-//        )
     }
 }

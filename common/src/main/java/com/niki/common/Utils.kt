@@ -17,12 +17,23 @@ import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
+import kotlin.random.Random
 import kotlin.reflect.KClass
 
-inline fun <reified A : Activity> Activity.start(intentPreference: Intent.() -> Unit = {}) {
+inline fun <reified A : Activity> Activity.startActivity(intentPreference: Intent.() -> Unit = {}) {
     val i = Intent(this, A::class.java)
     i.intentPreference()
     startActivity(i)
+}
+
+/**
+ * 伪造 json 中用到的 32 位随机
+ */
+fun generateRandomHexString(length: Int): String {
+    val chars = "0123456789abcdef"
+    return (1..length)
+        .map { chars.random(Random) }
+        .joinToString("")
 }
 
 fun Context.toast(msg: String) = CoroutineScope(Dispatchers.Main).launch {
@@ -34,6 +45,32 @@ suspend fun <R> count(tag: String, block: suspend () -> R): R {
     val r = block()
     logV("$tag 用时 ${System.currentTimeMillis() - startTime}ms")
     return r
+}
+
+fun Pair<String?, Int?>.proxyToString(): String {
+    if (first.isNullOrBlank() || second == null) {
+        return ""
+    }
+    return "$first:$second".trim(' ', '\n')
+}
+
+fun String.parseToProxyPair(): Pair<String?, Int?> {
+    val proxyString = this
+
+    val parts = proxyString.split(":")
+
+    if (parts.size == 2) {
+        val host = parts[0].trim() // 获取主机部分并去除空白
+        val port = parts[1].trim().toIntOrNull() // 获取端口部分并尝试转换为Int，如果失败则为null
+
+        // 检查主机是否为空，且端口是否成功解析
+        if (host.isNotBlank() && port != null) {
+            return host to port
+        }
+    }
+
+    // 如果解析失败（例如格式不正确，或端口不是数字），返回null
+    return null to null
 }
 
 inline fun <reified T : Any> getSealedChildren(
@@ -99,7 +136,6 @@ inline fun <reified T> JsonObject.getAs(key: String): T? {
             Float::class.java -> p.floatOrNull
             Double::class.java -> p.doubleOrNull
             Boolean::class.java -> p.booleanOrNull
-//        Any::class.java -> {}
             else -> null
         }
     return data as? T

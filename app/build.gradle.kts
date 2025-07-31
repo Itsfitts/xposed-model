@@ -61,8 +61,6 @@ dependencies {
     compileOnly(libs.xposed.api)
 
     implementation(project(":hooker"))
-//    implementation(project(":chat"))
-//    implementation(project(":tool-call"))
     implementation(project(":common"))
 
     implementation(libs.annotation)
@@ -75,6 +73,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core:1.7.8")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
+    debugImplementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview.android)
 
     implementation(libs.kotlinx.serialization.json)

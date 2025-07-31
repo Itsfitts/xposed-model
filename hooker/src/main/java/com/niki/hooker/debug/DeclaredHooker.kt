@@ -1,6 +1,7 @@
-package com.niki.hooker.model
+package com.niki.hooker.debug
 
 import com.niki.common.logD
+import com.niki.hooker.BaseHooker
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**

@@ -1,4 +1,4 @@
-package com.niki.hooker.model
+package com.niki.hooker
 
 import com.niki.common.logE
 import com.niki.common.logV

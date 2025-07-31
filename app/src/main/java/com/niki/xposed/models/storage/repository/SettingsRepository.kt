@@ -41,7 +41,7 @@
 //        fun getInstance(): IEditableSettingsRepository =
 //            INSTANCE ?: throw IllegalArgumentException("SettingsRepository 未初始化")
 //
-//        fun getAsSharedPrefRepository(): SharedPrefRepository =
+//        fun getSharedPrefRepositoryInstance(): SharedPrefRepository =
 //            getInstance() as SharedPrefRepository
 //    }
 //
@@ -50,7 +50,7 @@
 //    }
 //
 //    override fun setBaseUrl(value: String) {
-//        setValueToPref(Key.BaseUrl, value)
+//        setValueToPref(Key.Url, value)
 //    }
 //
 //    override fun setModelName(value: String) {
@@ -75,6 +75,10 @@
 //        setProxy(pair.first, pair.second)
 //    }
 //
+//    override fun setEnableShowToolCalling(value: Boolean) {
+//        setValueToPref(Key.EnableShowToolCalling, value)
+//    }
+//
 //    override fun setEnableApp(value: Boolean) {
 //        setValueToPref(Key.EnableLaunchApp, value)
 //    }
@@ -96,7 +100,7 @@
 //    }
 //
 //    override fun getBaseUrl(): String {
-//        return getValueFromPref<String>(Key.BaseUrl)
+//        return getValueFromPref<String>(Key.Url)
 //    }
 //
 //    override fun getModelName(): String {
@@ -118,6 +122,10 @@
 //
 //    override fun getEnableApp(): Boolean {
 //        return getValueFromPref<Boolean>(Key.EnableLaunchApp)
+//    }
+//
+//    override fun getEnableShowToolCalling(): Boolean {
+//        return getValueFromPref<Boolean>(Key.EnableShowToolCalling)
 //    }
 //
 //    override fun getEnableUri(): Boolean {

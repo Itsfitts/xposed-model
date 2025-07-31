@@ -91,7 +91,7 @@ abstract class ComposeMVIViewModel<Intent, State, Event> : ViewModel() {
      * 错误处理 - 子类可重写自定义错误处理
      */
     protected open fun onError(error: Throwable) {
-        logE(error.stackTraceToString())
+        logE("viewmodel 出现异常", error)
     }
 
     // 抽象方法

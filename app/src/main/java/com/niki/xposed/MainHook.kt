@@ -1,13 +1,16 @@
 package com.niki.xposed
 
 import android.app.Application
-import com.niki.common.count
+import android.content.Context
+import androidx.annotation.Keep
 import com.niki.common.logD
 import com.niki.common.logE
+import com.niki.common.logRelease
 import com.niki.hooker.model.ApplicationHooker
-import com.zephyr.log.logV
+import com.niki.xposed.models.messaging.sendNotificationWithErrorProvider
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,65 +19,93 @@ import kotlinx.coroutines.launch
 
 /**
  * 主hook类，这个需要在 src/main/assets/xposed_init 里面写类名才能被 xposed 识别
- *
- * TODO: 如果修改包名记得去 src/main/assets/xposed_init 里面改
  */
-class MainHook : IXposedHookLoadPackage {
+class MainHook @Keep() constructor() : IXposedHookLoadPackage {
     companion object {
-        const val TARGET_PACKAGE_NAME = "com.x.x" // TODO
-        lateinit var targetApplication: Application
+        /**
+         * 使用 BuildConfig，启用混淆后这些属性会自动优化掉，不会泄露
+         */
+        private object Debug {
+            val isDebug = BuildConfig.DEBUG
+        }
+
+        const val PACKAGE_NAME = "com.heytap.speechassist"
+
+        private var lastQuery: String? = null
+        private var lastCallTime: Long = 0L
+
+        // 防抖动时间。在打开小布主应用后，再用通过电源键唤起小布，这时由于用户输入捕获的实现是通过 UI，
+        // 并且 recyclerview 实例化了两个，会导致重复回调，需要去抖动
+        private const val DEBOUNCE_DELAY = 150L
+
+        lateinit var BreenoApplication: Application
+
+        lateinit var versionName: String
     }
 
-//    private val repo by lazy { XSettingsRepository.getInstance() } // 应该根据需求重实现 repository
+//    private val repo by lazy { XSettingsRepository.getInstance() }
 
-    private val hookScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val supervisorContext = SupervisorJob()
 
-    private fun getNextDayTimeMills(timestamp: Long): Long {
-        return (timestamp + 9_0000) * 1000
+    private val hookScope = CoroutineScope(Dispatchers.IO + supervisorContext)
+
+    private val exceptionHandler = CoroutineExceptionHandler { context, exception ->
+        logRelease(exception.message ?: "未知错误", exception)
+        exception.trySendErrorNotification(1) // 在这里发送错误通知
     }
 
     /**
      * hook 的触发回调
      */
+    @Keep
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (lpparam.packageName != TARGET_PACKAGE_NAME) {
-            logV("略过: ${lpparam.packageName}")
-            return
-        }
+        hookScope.launch(exceptionHandler) {
+            logD("正在 Hook: ${lpparam.packageName}")
 
-        logD("正在 Hook: ${lpparam.packageName}")
+            TODO("PACKAGE NAME &&& xposed_init ||| use YUKI_HOOK_API")
+            if (lpparam.packageName != PACKAGE_NAME) {
+                logD("跳过: ${lpparam.packageName}")
+                return@launch
+            }
 
-        /**
-         * https://www.xbgjw.com/timestamp
-         */
-        if (System.currentTimeMillis() > getNextDayTimeMills(1752805183)) {
-            logE("过期应用")
-            return
-        }
-
-        hookScope.launch(Dispatchers.IO) {
             try {
-                val application = count("阻塞获取 context") {
-                    ApplicationHooker(TARGET_PACKAGE_NAME).hookBlocking(lpparam)
-                }
+                val application = ApplicationHooker().hookBlocking(lpparam)
                 application?.let {
-                    targetApplication = it
-
-//                    XSettingsRepository.getInstance(it)
-
-                    lpparam.apply {
-                        // do shit
-                    }
-                } ?: logE("获取不到目标 context, hook 失败")
+                    versionName = getVersionName(it) ?: ""
+                    logE("版本: $versionName")
+                    BreenoApplication = it
+                    // ...
+                } ?: throw Throwable("获取不到目标 context, hook 失败")
             } catch (t: Throwable) {
                 logE("主 hook 失败", t)
+                t.trySendErrorNotification(1)
             }
         }
     }
 
+    private fun Throwable.trySendErrorNotification(shouldStartActivity: Int = 1) {
+        runCatching {
+            BreenoApplication.sendNotificationWithErrorProvider(
+                message,
+                stackTraceToString(),
+                shouldStartActivity
+            )
+        }
+    }
 
-//    private fun XC_LoadPackage.LoadPackageParam.hookExample() {
-//        XXXHooker().hook(this) { callbackData ->
-//        }
-//    }
+    /**
+     * 获取自己应用内部的版本名
+     */
+    private fun getVersionName(context: Context): String? {
+        val manager = context.packageManager
+        var name: String? = null
+        try {
+            val info = manager.getPackageInfo(context.packageName, 0)
+            name = info.versionName
+        } catch (e: Exception) {
+            logE("版本号获取失败", e)
+        }
+
+        return name
+    }
 }

@@ -4,7 +4,6 @@ annotation = "1.9.1"
 api = "82"
 kotlin = "2.1.0"
 kotlinxSerializationJson = "1.8.1"
-logVersion = "3.1.0"
 material = "1.12.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -15,11 +14,11 @@ appcompat = "1.7.0"
 foundationAndroid = "1.8.3"
 material3Android = "1.3.2"
 okhttp = "4.12.0"
-providerVersion = "3.1.0"
 retrofit = "2.11.0"
-toolsVersion = "3.1.0"
+zephyr = "3.1.0"
 uiToolingPreviewAndroid = "1.8.3"
 kotlinxCoroutinesCore = "1.9.0"
+uiTooling = "1.4.0"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -39,10 +38,12 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
-zephyr-tools = { module = "com.github.niki914.Zephyr:tools", version.ref = "toolsVersion" }
-zephyr-net = { module = "com.github.niki914.Zephyr:net", version.ref = "toolsVersion" }
-zephyr-provider = { module = "com.github.niki914.Zephyr:provider", version.ref = "providerVersion" }
-zephyr-log = { module = "com.github.niki914.Zephyr:log", version.ref = "logVersion" }
+zephyr-tools = { module = "com.github.niki914.Zephyr:tools", version.ref = "zephyr" }
+zephyr-net = { module = "com.github.niki914.Zephyr:net", version.ref = "zephyr" }
+zephyr-provider = { module = "com.github.niki914.Zephyr:provider", version.ref = "zephyr" }
+zephyr-extension = { module = "com.github.niki914.Zephyr:extension", version.ref = "zephyr" }
+zephyr-log = { module = "com.github.niki914.Zephyr:log", version.ref = "zephyr" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

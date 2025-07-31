@@ -53,7 +53,7 @@
 //    }
 //
 //    override fun getBaseUrl(): String {
-//        return getStringOrDefault(Key.BaseUrl)
+//        return getStringOrDefault(Key.Url)
 //    }
 //
 //    override fun getModelName(): String {
@@ -75,6 +75,10 @@
 //
 //    override fun getEnableApp(): Boolean {
 //        return getBooleanOrDefault(Key.EnableLaunchApp)
+//    }
+//
+//    override fun getEnableShowToolCalling(): Boolean {
+//        return getBooleanOrDefault(Key.EnableShowToolCalling)
 //    }
 //
 //    override fun getEnableUri(): Boolean {

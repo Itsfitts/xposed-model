@@ -1,14 +1,16 @@
-package com.niki.hooker.model
+package com.niki.hooker.debug
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.niki.common.logD
+import com.niki.hooker.BaseHooker
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -17,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  *
  * claude 写的
  */
-class ViewTreeHooker(val delay: Long) : BaseHooker<Nothing, Unit>() {
+class ViewTreeHooker(val delay: Long, val spacer: String = "    ") : BaseHooker<Nothing, Unit>() {
     override val TAG: String = ""
     override fun XC_LoadPackage.LoadPackageParam.hookInternal(callback: (Nothing) -> Unit) {
         findAndHookMethod(
@@ -40,8 +42,8 @@ class ViewTreeHooker(val delay: Long) : BaseHooker<Nothing, Unit>() {
 
     private fun traverseViewTree(activity: Any) {
         try {
-            val window = activity.call("getWindow") ?: return
-            val decorView = window.call("getDecorView") as? ViewGroup ?: return
+            val window = activity.call<Window>("getWindow") ?: return
+            val decorView = window.call<ViewGroup>("getDecorView") ?: return
 
             logD("开始遍历视图树(${activity.javaClass.simpleName}):")
             traverseViews(decorView, 0)
@@ -51,7 +53,7 @@ class ViewTreeHooker(val delay: Long) : BaseHooker<Nothing, Unit>() {
     }
 
     private fun traverseViews(view: View, depth: Int) {
-        val indent = "   ".repeat(depth)
+        val indent = spacer.repeat(depth)
         val info = "$indent${getViewDescription(view)} [${getViewId(view)}]"
         logD(info)
 
