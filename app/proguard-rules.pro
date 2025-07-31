@@ -1,33 +1,48 @@
--keep class de.robv.android.xposed.** { *; }
+# =================== 你的 App 入口 (例如 Xposed Hook) ===================
+# 保持你的 Hook 入口类和其所有成员不被混淆
+#-keep class com.niki.breeno.MainHook { *; }
 
+# =================== 必要的框架和库规则 ===================
+
+# Xposed Framework (保留核心接口即可)
 -keep interface de.robv.android.xposed.IXposedHookLoadPackage { *; }
 -keep interface de.robv.android.xposed.IXposedHookZygoteInit { *; }
 -keep interface de.robv.android.xposed.IXposedHookInitPackageResources { *; }
 
--keep class com.niki914.xposed.MainHook { *;}
+# Kotlin Coroutines
+# 推荐由 AGP 和 R8 的默认规则处理，但如果遇到问题，以下是安全的
+#-dontwarn kotlinx.coroutines.flow.**
+#-dontwarn kotlinx.coroutines.internal.**
+#-dontwarn kotlinx.coroutines.debug.**
 
--keep class io.ktor.** { *; }
--dontwarn io.ktor.**
+# Kotlin 反射和元数据 (必要)
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.coroutines.Continuation
+-keep class kotlin.jvm.internal.DefaultConstructorMarker { *; }
+# 如果协程出问题，可以加上这条作为保险
+# -keep class * extends kotlin.coroutines.Continuation { *; }
 
--keepnames class kotlinx.coroutines.internal.* { *; }
--dontwarn kotlinx.coroutines.flow.**
--dontwarn kotlinx.coroutines.internal.**
--dontwarn kotlinx.coroutines.debug.**
 
+# =================== 标准 Android 规则 (必要) ===================
+
+# 保留 JNI 方法
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 
--keep public class * extends android.view.View {
-    public <init>(android.content.Context);
-    public <init>(android.content.Context, android.util.AttributeSet);
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-}
+# 保留自定义 View 的构造函数
+#-keep public class * extends android.view.View {
+#    public <init>(android.content.Context);
+#    public <init>(android.content.Context, android.util.AttributeSet);
+#    public <init>(android.content.Context, android.util.AttributeSet, int);
+#}
 
+# 保留 Parcelable 的 CREATOR 字段
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator CREATOR;
 }
 
+# 保留 Serializable 的特殊方法和字段
 -keep class * implements java.io.Serializable {
     static final long serialVersionUID;
     private void writeObject(java.io.ObjectOutputStream);
@@ -36,27 +51,5 @@
     java.lang.Object readResolve();
 }
 
-# OkHttp
--dontwarn okhttp3.**
--keep class okhttp3.** { *; }
--keep interface okhttp3.** { *; }
-
-# Okio (OkHttp 的依赖)
--dontwarn okio.**
--keep class okio.** { *; }
--keep interface okio.** { *; }
-
-# 保持所有数据类和模型类不被混淆，特别是 Retrofit 需要通过反射访问的类
-# 替换 com.your.package.model 为你实际的 beans 包路径
--keep class com.niki914.chat.beans.** { *; } # 保持你的 ChatCompletionRequest, Message 等数据类
-
-# 对于 Kotlin 反射和泛型，通常也需要一些规则
--keep class kotlin.Metadata { *; }
--keep class kotlin.coroutines.Continuation
--keep class kotlin.coroutines.intrinsics.IntrinsicsKt
--keep class kotlin.jvm.internal.DefaultConstructorMarker { *; }
-
-# 对于 suspend 函数的通用规则 (如果遇到问题可以添加)
--keep class * extends kotlin.coroutines.Continuation { *; }
-
--dontwarn **
+# ！！！强烈建议删除 `-dontwarn **` ！！！
+# 如果有任何警告，请针对性地用 -dontwarn <package.name.**> 处理
