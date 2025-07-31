@@ -4,7 +4,7 @@
 -keep interface de.robv.android.xposed.IXposedHookZygoteInit { *; }
 -keep interface de.robv.android.xposed.IXposedHookInitPackageResources { *; }
 
--keep class com.niki.xposed.MainHook { *;}
+-keep class com.niki914.xposed.MainHook { *;}
 
 -keep class io.ktor.** { *; }
 -dontwarn io.ktor.**
@@ -48,7 +48,7 @@
 
 # 保持所有数据类和模型类不被混淆，特别是 Retrofit 需要通过反射访问的类
 # 替换 com.your.package.model 为你实际的 beans 包路径
--keep class com.niki.chat.beans.** { *; } # 保持你的 ChatCompletionRequest, Message 等数据类
+-keep class com.niki914.chat.beans.** { *; } # 保持你的 ChatCompletionRequest, Message 等数据类
 
 # 对于 Kotlin 反射和泛型，通常也需要一些规则
 -keep class kotlin.Metadata { *; }

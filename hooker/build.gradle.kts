@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.niki.hooker"
+    namespace = "com.niki914.hooker"
     compileSdk = 35
 
     defaultConfig {

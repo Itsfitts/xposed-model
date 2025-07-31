@@ -28,11 +28,11 @@
 
         <provider
             android:name=".models.storage.ConfigProvider"
-            android:authorities="com.niki.xposed.config.provider"
+            android:authorities="com.niki914.xposed.config.provider"
             android:exported="true" />
         <provider
             android:name=".models.messaging.ErrorProvider"
-            android:authorities="com.niki.xposed.error.provider"
+            android:authorities="com.niki914.xposed.error.provider"
             android:exported="true" />
 
         <meta-data

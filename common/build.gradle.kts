@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.niki.common"
+    namespace = "com.niki914.common"
     compileSdk = 34
 
     defaultConfig {

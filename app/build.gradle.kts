@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.niki.xposed"
+    namespace = "com.niki914.xposed"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.niki.xposed.model"
+        applicationId = "com.niki914.xposed.model"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
