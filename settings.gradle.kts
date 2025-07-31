@@ -30,7 +30,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "xposed-model"
+rootProject.name = "qqmail-cleaner"
 include(":app")
 include(":hooker")
 include(":common")

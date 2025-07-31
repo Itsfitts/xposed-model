@@ -1,4 +1,4 @@
-package com.niki914.xposed.ui.theme
+package com.niki914.qmcleaner.ui.theme
 
 import android.app.Activity
 import android.os.Build

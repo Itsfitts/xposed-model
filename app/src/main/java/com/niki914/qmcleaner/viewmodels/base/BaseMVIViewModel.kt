@@ -1,16 +1,15 @@
-package com.niki914.xposed.viewmodels.base
+package com.niki914.qmcleaner.viewmodels.base
 
 import com.niki914.common.Key
-import com.niki914.common.repository.interfaces.IEditableSettingsRepository
+import com.niki914.qmcleaner.models.storage.repository.SettingsRepository
 
 /**
  * 加一个 repository
  */
 abstract class BaseMVIViewModel<Intent, State, Event> :
     ComposeMVIViewModel<Intent, State, Event>() {
-    protected val repo: IEditableSettingsRepository by lazy {
-//        SettingsRepository.getAsSharedPrefRepository()
-        TODO()
+    protected val repo by lazy {
+        SettingsRepository.getSharedPrefRepositoryInstance()
     }
 
     /**
@@ -19,7 +18,6 @@ abstract class BaseMVIViewModel<Intent, State, Event> :
     protected abstract fun updateStateByIntent(key: Key, value: Any)
 
     inline fun <reified T> getValue(key: Key): T {
-        return TODO()
-//        return SettingsRepository.getAsSharedPrefRepository().getValueFromPref(key)
+        return SettingsRepository.getSharedPrefRepositoryInstance().getValueFromPref(key)
     }
 }

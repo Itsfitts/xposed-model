@@ -28,11 +28,11 @@
 
         <provider
             android:name=".models.storage.ConfigProvider"
-            android:authorities="com.niki914.xposed.config.provider"
+            android:authorities="com.niki914.qmcleaner.config.provider"
             android:exported="true" />
         <provider
             android:name=".models.messaging.ErrorProvider"
-            android:authorities="com.niki914.xposed.error.provider"
+            android:authorities="com.niki914.qmcleaner.error.provider"
             android:exported="true" />
 
         <meta-data
@@ -46,7 +46,7 @@
             android:value="82" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/xposed_scope///" />
+            android:resource="@array/xposed_scope" />
     </application>
 
 </manifest>

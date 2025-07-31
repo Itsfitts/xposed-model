@@ -1,5 +1,5 @@
 // ui.theme/Type.kt
-package com.niki914.xposed.ui.theme
+package com.niki914.qmcleaner.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

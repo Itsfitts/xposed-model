@@ -1,4 +1,4 @@
-package com.niki914.xposed.models.messaging
+package com.niki914.qmcleaner.models.messaging
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,9 +7,11 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.niki914.common.logE
 import com.niki914.common.utils.EmptyContentProvider
-import com.niki914.xposed.models.messaging.ErrorProvider.Companion.COLUMN_ERROR_MESSAGE
-import com.niki914.xposed.models.messaging.ErrorProvider.Companion.COLUMN_SHOULD_START_ACTIVITY
-import com.niki914.xposed.models.messaging.ErrorProvider.Companion.COLUMN_STACK_TRACE
+import com.niki914.qmcleaner.MainActivity
+import com.niki914.qmcleaner.R
+import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_ERROR_MESSAGE
+import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_SHOULD_START_ACTIVITY
+import com.niki914.qmcleaner.models.messaging.ErrorProvider.Companion.COLUMN_STACK_TRACE
 
 fun Context.sendNotificationWithErrorProvider(
     errorMessage: String?,
@@ -29,8 +31,7 @@ fun Context.sendNotificationWithErrorProvider(
 class ErrorProvider : EmptyContentProvider() {
 
     companion object {
-        // ContentProvider 的 Authority，必须在 AndroidManifest.xml 中声明
-        private const val AUTHORITY = "com.niki.breeno.openai.error.provider"
+        private const val AUTHORITY = "com.niki914.qmcleaner.error.provider"
 
         // 接收错误信息的 URI
         fun getErrorUri(): Uri = "content://$AUTHORITY/error".toUri()
@@ -53,22 +54,20 @@ class ErrorProvider : EmptyContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("URI")
         return when (uriMatcher.match(uri)) {
             CODE_POST_ERROR -> {
                 val errorMessage = values?.getAsString(COLUMN_ERROR_MESSAGE) ?: "未知错误"
                 val stackTraceString = values?.getAsString(COLUMN_STACK_TRACE) ?: ""
                 val shouldStartActivity = values?.getAsInteger(COLUMN_SHOULD_START_ACTIVITY) == 1
 
-//                val clazz = if (shouldStartActivity) {
-//                    MainActivity::class.java
-//                } else {
-//                    null
-//                }
-
-                val clazz = null
+                val clazz = if (shouldStartActivity) {
+                    MainActivity::class.java
+                } else {
+                    null
+                }
 
                 context?.sendNotification(
+                    R.drawable.ic_launcher_foreground,
                     "模块发生错误: $errorMessage",
                     stackTraceString,
                     clazz

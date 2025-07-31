@@ -1,4 +1,4 @@
-package com.niki914.xposed.models.messaging
+package com.niki914.qmcleaner.models.messaging
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,12 +9,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.niki914.xposed.isPermissionGranted
+import com.niki914.qmcleaner.isPermissionGranted
 
 // --- 通知渠道常量 ---
-private const val CHANNEL_ID = "niki_breeno_report_channel"
+private const val CHANNEL_ID = "niki914_report_channel"
 private const val CHANNEL_NAME = "错误报告"
 private const val CHANNEL_DESCRIPTION = "模块错误报告"
 
@@ -32,6 +33,7 @@ private const val NOTIFICATION_MSG_KEY = "notification_message"
  */
 @SuppressLint("MissingPermission")
 fun <A : Activity> Context.sendNotification(
+    @StringRes iconRes: Int,
     title: String = "",
     message: String = "",
     activityClazz: Class<A>? = null
@@ -43,10 +45,9 @@ fun <A : Activity> Context.sendNotification(
         buildPendingIntent(title, message, it)
     }
 
-    TODO("CHANNEL ID")
     // 3. 构建通知
     val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-//        .setSmallIcon(R.drawable.bear) // 通知小图标，必填
+        .setSmallIcon(iconRes) // 通知小图标，必填
         .setContentTitle(title) // 通知标题
         .setContentText(message) // 通知内容
         .setPriority(NotificationCompat.PRIORITY_MAX) // 通知优先级 (影响 Android 8.0 以下版本)

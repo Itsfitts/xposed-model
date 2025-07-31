@@ -2,15 +2,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
-
 }
 
 android {
-    namespace = "com.niki914.xposed"
+    namespace = "com.niki914.qmcleaner"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.niki914.xposed.model"
+        applicationId = "com.niki914.qqmail.cleaner"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

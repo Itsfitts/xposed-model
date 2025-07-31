@@ -1,4 +1,4 @@
-package com.niki914.xposed
+package com.niki914.qmcleaner
 
 import android.app.Application
 import android.content.Context
@@ -7,7 +7,7 @@ import com.niki914.common.logD
 import com.niki914.common.logE
 import com.niki914.common.logRelease
 import com.niki914.hooker.model.ApplicationHooker
-import com.niki914.xposed.models.messaging.sendNotificationWithErrorProvider
+import com.niki914.qmcleaner.models.messaging.sendNotificationWithErrorProvider
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -29,21 +29,14 @@ class MainHook @Keep() constructor() : IXposedHookLoadPackage {
             val isDebug = BuildConfig.DEBUG
         }
 
-        const val PACKAGE_NAME = "com.heytap.speechassist"
-
-        private var lastQuery: String? = null
-        private var lastCallTime: Long = 0L
-
-        // 防抖动时间。在打开小布主应用后，再用通过电源键唤起小布，这时由于用户输入捕获的实现是通过 UI，
-        // 并且 recyclerview 实例化了两个，会导致重复回调，需要去抖动
-        private const val DEBOUNCE_DELAY = 150L
+        const val PACKAGE_NAME = "com.tencent.androidqqmail"
 
         lateinit var BreenoApplication: Application
 
         lateinit var versionName: String
     }
 
-//    private val repo by lazy { XSettingsRepository.getInstance() }
+    private val repo by lazy { XSettingsRepository.getInstance() }
 
     private val supervisorContext = SupervisorJob()
 
@@ -62,7 +55,6 @@ class MainHook @Keep() constructor() : IXposedHookLoadPackage {
         hookScope.launch(exceptionHandler) {
             logD("正在 Hook: ${lpparam.packageName}")
 
-            TODO("PACKAGE NAME &&& xposed_init ||| use YUKI_HOOK_API")
             if (lpparam.packageName != PACKAGE_NAME) {
                 logD("跳过: ${lpparam.packageName}")
                 return@launch

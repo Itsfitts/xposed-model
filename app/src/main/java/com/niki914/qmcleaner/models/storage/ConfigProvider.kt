@@ -1,4 +1,4 @@
-package com.niki914.xposed.models.storage
+package com.niki914.qmcleaner.models.storage
 
 import android.content.ContentValues
 import android.content.Context
@@ -11,6 +11,7 @@ import com.niki914.common.Key
 import com.niki914.common.logE
 import com.niki914.common.utils.EmptyContentProvider
 import com.niki914.common.utils.SharedPreferenceHelper
+import com.niki914.qmcleaner.models.storage.repository.SettingsRepository
 
 fun Context.getCursor(key: String): Cursor? {
     val queryUri = ConfigProvider.getQueryUri(key)
@@ -23,7 +24,8 @@ fun Context.getCursor(key: String): Cursor? {
  */
 class ConfigProvider : EmptyContentProvider() {
     companion object {
-        private const val AUTHORITY = "com.niki.breeno.openai.config.provider"
+        private const val AUTHORITY = "com.niki914.qmcleaner.config.provider"
+
         fun getQueryUri(key: String): Uri {
             return "content://${AUTHORITY}/get/$key".toUri()
         }
@@ -44,8 +46,7 @@ class ConfigProvider : EmptyContentProvider() {
      */
     override fun onCreate(): Boolean {
         context?.let {
-            TODO("补全")
-//            helper = SharedPreferenceHelper(it, SettingsRepository.PREF_NAME)
+            helper = SharedPreferenceHelper(it, SettingsRepository.PREF_NAME)
             return true
         }
         return false
@@ -58,7 +59,6 @@ class ConfigProvider : EmptyContentProvider() {
         selectionArgs: Array<out String?>?,
         sortOrder: String?
     ): Cursor? {
-        TODO("URI")
         return when (uriMatcher.match(uri)) {
             CODE_GET_VALUE -> {
                 val key = uri.lastPathSegment // 获取 URI 路径中的最后一个段作为键
@@ -67,7 +67,7 @@ class ConfigProvider : EmptyContentProvider() {
                     return try {
                         createGetCursor(key)
                     } catch (e: Exception) {
-                        logE("APIProvider#get", e)
+                        logE("ConfigProvider#get", e)
                         null
                     }
                 } else {
