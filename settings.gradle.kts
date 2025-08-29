@@ -30,7 +30,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = ''
+rootProject.name = ""
 include(":app")
 include(":hooker")
 include(":common")
